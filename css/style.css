@@ -95,6 +95,10 @@ textarea {
     cursor: pointer;
 }
 
+.textLine{
+    text-decoration: line-through;
+}
+
 .activeTab {
     color: #16C0B0;
     text-decoration: underline;
