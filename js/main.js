@@ -177,6 +177,7 @@ Vue.component('product', {
        </div>
        <div class="product-info">
            <h1>{{ title }}</h1>
+           <span v-show="onSale"> SALE</span>
            <p>{{ description }}</p>
            <a :href="link">More products like this.</a>
            <p v-if="inStock">In stock</p>
@@ -230,14 +231,15 @@ Vue.component('product', {
                     variantColor: 'green',
                     variantImage: "./assets/vmSocks-green-onWhite.jpg",
                     variantQuantity: 10,
-                    price: 150
+                    price: 150,
+
                 },
                 {
                     variantId: 2235,
                     variantColor: 'blue',
                     variantImage: "./assets/vmSocks-blue-onWhite.jpg",
                     variantQuantity: 0,
-                    price: 100
+                    price: 100,
                 }
             ],
             reviews: []
