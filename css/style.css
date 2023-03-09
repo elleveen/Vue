@@ -55,11 +55,17 @@ button {
     background-color: #1E95EA;
     color: white;
     height: 40px;
-    width: 100px;
+    width: 150px;
     font-size: 14px;
 
 }
-
+button:last-child {
+    background-color: #da4848;
+}
+button:hover {
+    background-color: #d8d8d8;
+    cursor: pointer;
+}
 
 button:hover {
     background-color: #d8d8d8;
