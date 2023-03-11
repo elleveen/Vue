@@ -103,3 +103,12 @@ textarea {
     color: #16C0B0;
     text-decoration: underline;
 }
+
+.radio-block {
+    display: flex;
+    width: 300px;
+    height: max-content;
+    position: relative;
+    flex-direction: row;
+}
+

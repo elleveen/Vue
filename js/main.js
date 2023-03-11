@@ -24,8 +24,9 @@ Vue.component('product-tabs', {
             <ul v-else>
                 <li v-for="(review, index) in reviews" :key="index">
                   <p>{{ review.name }}</p>
-                  <p>Rating:{{ review.rating }}</p>
+                  <p>Rating: {{ review.rating }}</p>
                   <p>{{ review.review }}</p>
+                  <p>Recommendation: {{ review.choice }}</p>
                 </li>
             </ul>
         </div>
@@ -119,14 +120,15 @@ Vue.component('product-review', {
      <option>1</option>
    </select>
  </p>
-<p>
-    <label for="liking">Would you recommend this product?</label>
-     <p>
-        <label for="question">Yes</label>
-        <input id="liking" type="radio" name="but" value="no">
-        <label for="question">No</label>
-        <input id="liking" type="radio" name="but" value="no">
-    </p>
+<fieldset>
+    <legend>Would you recommend this product?</legend>
+        <div class="radio-block">
+            <label for="yes">Yes</label>
+            <input type="radio" id="yes" name="choice" v-model="choice" value="Yes"/>
+            <label for="no">No</label>
+            <input type="radio" id="no" name="choice" v-model="choice" value="No" />
+        </div>
+</fieldset
     </div>
 </p>
  <p>
@@ -139,25 +141,29 @@ Vue.component('product-review', {
             name: null,
             review: null,
             rating: null,
+            choice: null,
             errors: []
         }
     },
     methods: {
         onSubmit() {
-            if (this.name && this.review && this.rating) {
+            if (this.name && this.review && this.rating && this.choice) {
                 let productReview = {
                     name: this.name,
                     review: this.review,
                     rating: this.rating,
+                    choice: this.choice,
                 }
                 eventBus.$emit('review-submitted', productReview)
                 this.name = null
                 this.review = null
                 this.rating = null
+                this.choice = null
             } else {
                 if (!this.name) this.errors.push("Name required.")
                 if (!this.review) this.errors.push("Review required.")
                 if (!this.rating) this.errors.push("Rating required.")
+                if (!this.choice) this.errors.push("Choice required.")
             }
         }
     }
@@ -242,7 +248,7 @@ Vue.component('product', {
                     price: 100,
                 }
             ],
-            reviews: []
+            reviews: [],
         }
     },
     methods: {
@@ -250,7 +256,7 @@ Vue.component('product', {
             this.$emit('add-to-cart', this.variants[this.selectedVariant].price);
         },
         removeFromCart() {
-            this.$emit('remove-from-cart', this.variants[this.selectedVariant].variantId);
+            this.$emit('remove-from-cart', this.variants[this.selectedVariant].price);
         },
         updateProduct(index) {
             this.selectedVariant = index;
@@ -278,6 +284,7 @@ Vue.component('product', {
             }
         }
     },
+
     mounted() {
         eventBus.$on('review-submitted', productReview => {
             this.reviews.push(productReview)
@@ -292,13 +299,19 @@ let app = new Vue({
         cart: []
     },
     methods: {
-        updateCart(id) {
-            this.cart.push(id);
-
+        updateCart(price) {
+            this.cart.push(price);
+            let add = function (arr) {
+                return arr.reduce((a, b) => a + b, 0);
+            };
+            let sum = add(this.cart);
+            for (let i = 0; i <= this.cart.length; ++i) {
+                this.cart.shift();
+            }
+            this.cart.push(sum);
         },
-        removeFromCart(id){
-            this.cart.pop(id);
+        removeFromCart(price){
+            this.cart.pop(price);
         }
-
     }
 })
