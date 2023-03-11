@@ -145,17 +145,6 @@ Vue.component('product-review', {
         }
     },
     methods: {
-        emptyErrors(){
-            if (
-                this.name != null &&
-                this.review != null &&
-                this.rating != null &&
-                this.choice != null
-            ){
-                this.errors = 0;
-            }
-
-        },
 
         validateRec() {
             let val = document.getElementById("rating").value
@@ -186,6 +175,17 @@ Vue.component('product-review', {
                 if (!this.rating) this.errors.push("Rating required.")
                 if (!this.choice) this.errors.push("Choice required.")
             }
+        },
+        emptyErrors(){
+            if (
+                this.name != null &&
+                this.review != null &&
+                this.rating != null &&
+                this.choice != null
+            ){
+                this.errors = [];
+            }
+
         }
     }
 })
