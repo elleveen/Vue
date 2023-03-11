@@ -130,7 +130,7 @@ Vue.component('product-review', {
         </div>
 </fieldset>
 <p>
-   <input type="submit" value="Submit"> 
+   <input v-on:click="emptyErrors" type="submit" value="Submit"> 
  </p>
 </form>
  `,
@@ -145,9 +145,20 @@ Vue.component('product-review', {
         }
     },
     methods: {
+        emptyErrors(){
+            if (
+                this.name != null &&
+                this.review != null &&
+                this.rating != null &&
+                this.choice != null
+            ){
+                this.errors = 0;
+            }
+
+        },
+
         validateRec() {
             let val = document.getElementById("rating").value
-            console.log(val);
             if (+val > 3) {
                 this.validRec = true
             } else {
