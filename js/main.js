@@ -112,7 +112,7 @@ Vue.component('product-review', {
  </p>
  <p>
    <label for="rating">Rating:</label>
-   <select id="rating" v-model.number="rating">
+   <select id="rating" v-model.number="rating" @change = "validateRec">
      <option>5</option>
      <option>4</option>
      <option>3</option>
@@ -124,14 +124,12 @@ Vue.component('product-review', {
     <legend>Would you recommend this product?</legend>
         <div class="radio-block">
             <label for="yes">Yes</label>
-            <input type="radio" id="yes" name="choice" v-model="choice" value="Yes"/>
+            <input type="radio" id="yes" name="choice" v-model="choice" :disabled="!validRec" value="Yes"/>
             <label for="no">No</label>
-            <input type="radio" id="no" name="choice" v-model="choice" value="No" />
+            <input type="radio" id="no" name="choice" v-model="choice" :disabled="validRec" value="No"  />
         </div>
-</fieldset
-    </div>
-</p>
- <p>
+</fieldset>
+<p>
    <input type="submit" value="Submit"> 
  </p>
 </form>
@@ -142,10 +140,22 @@ Vue.component('product-review', {
             review: null,
             rating: null,
             choice: null,
-            errors: []
+            errors: [],
+            validRec: true
         }
     },
     methods: {
+        validateRec() {
+            let val = document.getElementById("rating").value
+            console.log(val);
+            if (+val > 3) {
+                this.validRec = true
+            } else {
+                this.validRec = false
+                this.yes = null
+            }
+        },
+
         onSubmit() {
             if (this.name && this.review && this.rating && this.choice) {
                 let productReview = {
