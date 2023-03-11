@@ -112,21 +112,21 @@ Vue.component('product-review', {
  </p>
  <p>
    <label for="rating">Rating:</label>
-   <select id="rating" v-model.number="rating" @change = "validateRec">
-     <option>5</option>
-     <option>4</option>
-     <option>3</option>
-     <option>2</option>
-     <option>1</option>
+   <select id="rating" v-model.number="rating">
+     <option v-show = "validRec">5</option>
+     <option v-show = "validRec">4</option>
+     <option v-show = "validRec1">3</option>
+     <option v-show = "validRec1">2</option>
+     <option v-show = "validRec1">1</option>
    </select>
  </p>
 <fieldset>
-    <legend>Would you recommend this product?</legend>
+    <legend >Would you recommend this product?</legend>
         <div class="radio-block">
             <label for="yes">Yes</label>
-            <input type="radio" id="yes" name="choice" v-model="choice" :disabled="!validRec" value="Yes"/>
+            <input type="radio" id="choice" name="choice" v-model="choice"  @change="validateRec()" value="Yes"/>
             <label for="no">No</label>
-            <input type="radio" id="no" name="choice" v-model="choice" :disabled="validRec" value="No"  />
+            <input type="radio" id="choice2" name="choice" v-model="choice"  @change="validateRec()" value="No"  />
         </div>
 </fieldset>
 <p>
@@ -141,18 +141,23 @@ Vue.component('product-review', {
             rating: null,
             choice: null,
             errors: [],
-            validRec: true
+            validRec: false,
+            validRec1: false
         }
     },
     methods: {
 
         validateRec() {
-            let val = document.getElementById("rating").value
-            if (+val > 3) {
+            let val = document.getElementById("choice").value
+            let val2 = document.getElementById("choice2").value
+
+            console.log(val)
+            console.log(val2)
+
+            if (val = "yes") {
                 this.validRec = true
             } else {
-                this.validRec = false
-                this.yes = null
+                this.validRec1 = true
             }
         },
 
